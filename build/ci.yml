@@ -30,8 +30,10 @@ jobs:
     matrix:
       qdk:
         moduleName: 'qdk'
+        beta: ''
       azure-quantum:
         moduleName: 'azure-quantum'
+        beta: ''
       azure-quantum-cirq-beta:
         moduleName: 'azure-quantum'
         beta: 'cirq'
