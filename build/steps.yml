@@ -15,7 +15,7 @@ parameters:
 
 steps:
 - pwsh: ./bootstrap.ps1 -EnvPath ${{ parameters.envPath }}
-  displayName: Create ${{ parameters.packageName }} conda environment
+  displayName: Create ${{ parameters.envName }} conda environment
 - pwsh: build/build.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }} -FromSource $True
   displayName: Install ${{ parameters.packageName }} package in env
 - ${{ if ne(parameters.skipWheel, 'true') }}:
