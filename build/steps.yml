@@ -10,7 +10,7 @@ parameters:
 steps:
 - pwsh: ./bootstrap.ps1 ${{ parameters.module }}
   displayName: Create ${{ parameters.module }} conda environment
-- ${{ if ne(parameters.beta), '' }}:
+- ${{ if ne(parameters.beta, '') }}:
   - pwsh: build.build.ps1 ${{ parameters.beta }} ${{ parameters.module }}
     displayName: Install ${{ parameters.beta }} package in env
 - pwsh: build/build.ps1 ${{ parameters.module }}
