@@ -34,6 +34,7 @@ jobs:
         module: 'azure-quantum'
       azure-quantum-cirq-beta:
         module: 'azure-quantum'
+        installBeta: 'cirq'
   steps:
   - template: steps.yml
   - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0

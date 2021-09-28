@@ -1,6 +1,7 @@
 parameters:
-  module: ''
-  environmentFile: 'environment.yml'
+- name: module
+  type: string
+  default: 'azure-quantum'
 
 
 steps:
