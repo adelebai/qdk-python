@@ -26,7 +26,21 @@ jobs:
 - job: "QDKPython"
   pool: 
     vmImage: 'ubuntu-latest'
+  strategy:
+    matrix:
+      qdk:
+        moduleName: 'qdk'
+        beta: ''
+      azure-quantum:
+        moduleName: 'azure-quantum'
+        beta: ''
+      azure-quantum-cirq-beta:
+        moduleName: 'azure-quantum'
+        beta: 'cirq'
   steps:
   - template: steps.yml
+    parameters:
+      module: '$(moduleName)'
+      beta: '$(beta)'
   - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
     displayName: 'Component detection'
