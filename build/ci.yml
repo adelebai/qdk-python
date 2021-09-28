@@ -47,6 +47,6 @@ jobs:
       packageName: '$(packageName)'
       envPath: '$(envPath)'
       envName: '$(envName)'
-      skipWheel: $(skipWheel)
+      skipWheel: '$(skipWheel)'
   - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
     displayName: 'Component detection'

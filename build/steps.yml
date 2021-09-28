@@ -9,8 +9,8 @@ parameters:
   type: string
   default: ''
 - name: skipWheel
-  type: boolean
-  default: false
+  type: string
+  default: 'false'
 
 
 steps:
