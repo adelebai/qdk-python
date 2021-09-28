@@ -1,18 +1,25 @@
 parameters:
-- name: module
+- name: packageName
   type: string
   default: 'azure-quantum'
 - name: envPath
   type: string
   default: ''
+- name: envName
+  type: string
+  default: ''
+- name: skipWheel
+  type: bool
+  default: false
 
 
 steps:
 - pwsh: ./bootstrap.ps1 -EnvPath ${{ parameters.envPath }}
-  displayName: Create ${{ parameters.module }} conda environment
-- pwsh: build/build.ps1 ${{ parameters.module }} -FromSource $True
-  displayName: Install ${{ parameters.module }} package in env
-- pwsh: build/pack.ps1 ${{ parameters.module }}
-  displayName: Pack ${{ parameters.module }}
-- pwsh: build/test.ps1 ${{ parameters.module }}
-  displayName: Test ${{ parameters.module }}
+  displayName: Create ${{ parameters.packageName }} conda environment
+- pwsh: build/build.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }} -FromSource $True
+  displayName: Install ${{ parameters.packageName }} package in env
+- ${{ if ne(parameters.skipWheel, 'true') }}:
+  - pwsh: build/pack.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
+    displayName: Pack ${{ parameters.packageName }}
+- pwsh: build/test.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
+  displayName: Test ${{ parameters.packageName }}
