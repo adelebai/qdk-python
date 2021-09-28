@@ -46,9 +46,9 @@ jobs:
   steps:
   - template: steps.yml
     parameters:
-      packageName: '$(packageName)'
-      envPath: '$(envPath)'
-      envName: '$(envName)'
-      pack: '$(doPack)'
+      packageName: $(packageName)
+      envPath: $(envPath)
+      envName: $(envName)
+      pack: $(doPack)
   - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
     displayName: 'Component detection'
