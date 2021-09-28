@@ -34,7 +34,7 @@ jobs:
         moduleName: 'azure-quantum'
       azure-quantum-cirq-beta:
         moduleName: 'azure-quantum'
-        installBeta: 'cirq'
+        beta: 'cirq'
   steps:
   - template: steps.yml
     parameters:
