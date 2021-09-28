@@ -32,12 +32,14 @@ if ($null -eq $EnvNames) {
   Write-Host "##[info]Using EnvNames '$EnvNames'"
 }
 
-if ($null -eq $FromSource) {
+if ($False -ne $FromSource) {
+  Write-Host "##[info]FromSource: '$FromSource'".
   $FromSource = $True
   Write-Host "##[info]No FromSource. Setting to default '$FromSource'"
 }
 
-if ($null -eq $IsBeta) {
+if ($True -ne $IsBeta) {
+  Write-Host "##[info]IsBeta: '$IsBeta'".
   $IsBeta = $False
   Write-Host "##[info]No IsBeta. Setting to default '$IsBeta'"
 }
