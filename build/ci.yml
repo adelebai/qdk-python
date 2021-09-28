@@ -29,13 +29,15 @@ jobs:
   strategy:
     matrix:
       qdk:
-        module: 'qdk'
+        moduleName: 'qdk'
       azure-quantum:
-        module: 'azure-quantum'
+        moduleName: 'azure-quantum'
       azure-quantum-cirq-beta:
-        module: 'azure-quantum'
+        moduleName: 'azure-quantum'
         installBeta: 'cirq'
   steps:
   - template: steps.yml
+    parameters:
+      module: '${moduleName}'
   - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
     displayName: 'Component detection'
