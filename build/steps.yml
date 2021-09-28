@@ -1,17 +1,25 @@
+parameters:
+- name: packageName
+  type: string
+  default: 'azure-quantum'
+- name: envPath
+  type: string
+  default: ''
+- name: envName
+  type: string
+  default: ''
+- name: skipWheel
+  type: boolean
+  default: false
+
+
 steps:
-- pwsh: ./bootstrap.ps1 qdk
-  displayName: Create qdk conda environment
-- pwsh: build/build.ps1 qdk
-  displayName: Install qdk package in env
-- pwsh: build/pack.ps1 qdk
-  displayName: Pack qdk
-- pwsh: build/test.ps1 qdk
-  displayName: Test qdk
-- pwsh: ./bootstrap.ps1 azure-quantum
-  displayName: Create azure-quantum conda environment
-- pwsh: build/build.ps1 azure-quantum
-  displayName: Install azure-quantum package in env
-- pwsh: build/pack.ps1 azure-quantum
-  displayName: Pack azure-quantum
-- pwsh: build/test.ps1 azure-quantum
-  displayName: Test azure-quantum
+- pwsh: ./bootstrap.ps1 -EnvPath ${{ parameters.envPath }}
+  displayName: Create ${{ parameters.packageName }} conda environment
+- pwsh: build/build.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }} -FromSource $True
+  displayName: Install ${{ parameters.packageName }} package in env
+- ${{ if ne(parameters.skipWheel, 'true') }}:
+  - pwsh: build/pack.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
+    displayName: Pack ${{ parameters.packageName }}
+- pwsh: build/test.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
+  displayName: Test ${{ parameters.packageName }}
