@@ -9,7 +9,7 @@ parameters:
   type: string
   default: ''
 - name: skipWheel
-  type: bool
+  type: boolean
   default: false
 
 
