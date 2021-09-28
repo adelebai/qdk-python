@@ -39,5 +39,6 @@ jobs:
   - template: steps.yml
     parameters:
       module: '$(moduleName)'
+      beta: '$(beta)'
   - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
     displayName: 'Component detection'
