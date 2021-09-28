@@ -40,7 +40,7 @@ jobs:
         packageName: 'azure-quantum'
         envPath: 'azure-quantum/azure/quantum/plugins/environment-cirq-beta.yml'
         envName: azurequantumcirqbeta
-        skipWheel: true
+        skipWheel: 'true'
   steps:
   - template: steps.yml
     parameters:
