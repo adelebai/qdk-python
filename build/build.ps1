@@ -60,7 +60,7 @@ function Install-Package() {
     $AbsPackageDir = Join-Path $ParentPath $PackageName
     Write-Host "##[info]Install package $AbsPackageDir in development mode for env $EnvName"
     pip install -e $AbsPackageDir
-  } elif ($True -eq $IsBeta) {
+  } elseif ($True -eq $IsBeta) {
     Write-Host "##[info]Install latest beta of package $PackageName for env $EnvName"
     pip install --pre --update $PackageName
   } else {
