@@ -14,6 +14,9 @@ param (
   [bool] $IsBeta
 )
 
+Write-Host "##[info]FromSource: '$FromSource'".
+Write-Host "##[info]IsBeta: '$IsBeta'".
+
 & (Join-Path $PSScriptRoot "set-env.ps1");
 
 Import-Module (Join-Path $PSScriptRoot "conda-utils.psm1");
@@ -32,14 +35,12 @@ if ($null -eq $EnvNames) {
   Write-Host "##[info]Using EnvNames '$EnvNames'"
 }
 
-if ($False -ne $FromSource) {
-  Write-Host "##[info]FromSource: '$FromSource'".
+if ($null -eq $FromSource) {
   $FromSource = $True
   Write-Host "##[info]No FromSource. Setting to default '$FromSource'"
 }
 
-if ($True -ne $IsBeta) {
-  Write-Host "##[info]IsBeta: '$IsBeta'".
+if ($null -eq $IsBeta) {
   $IsBeta = $False
   Write-Host "##[info]No IsBeta. Setting to default '$IsBeta'"
 }
