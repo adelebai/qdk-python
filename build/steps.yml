@@ -8,7 +8,7 @@ parameters:
 - name: envName
   type: string
   default: ''
-- name: skipWheel
+- name: pack
   type: string
   default: 'false'
 
@@ -18,7 +18,7 @@ steps:
   displayName: Create ${{ parameters.envName }} conda environment
 - pwsh: build/build.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }} -FromSource $True
   displayName: Install ${{ parameters.packageName }} package in env
-- ${{ if ne(parameters.skipWheel, 'true') }}:
+- ${{ if eq(parameters.pack, 'true') }}:
   - pwsh: build/pack.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
     displayName: Pack ${{ parameters.packageName }}
 - pwsh: build/test.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
