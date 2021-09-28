@@ -65,7 +65,7 @@ function Install-Package() {
     pip install -e $AbsPackageDir
   } elseif ($True -eq $IsBeta) {
     Write-Host "##[info]Install latest beta of package $PackageName for env $EnvName"
-    pip install --pre --update $PackageName
+    pip install --pre --upgrade $PackageName
   } else {
     Write-Host "##[info]Install package $PackageName for env $EnvName"
     pip install $PackageName
