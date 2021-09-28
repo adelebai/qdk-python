@@ -2,17 +2,14 @@ parameters:
 - name: module
   type: string
   default: 'azure-quantum'
-- name: beta
+- name: envPath
   type: string
   default: ''
 
 
 steps:
-- pwsh: ./bootstrap.ps1 ${{ parameters.module }}
+- pwsh: ./bootstrap.ps1 -EnvPath ${{ parameters.envPath }}
   displayName: Create ${{ parameters.module }} conda environment
-- ${{ if ne(parameters.beta, '') }}:
-  - pwsh: build/build.ps1 ${{ parameters.beta }} ${{ parameters.module }} -FromSource $False -IsBeta $True
-    displayName: Install ${{ parameters.beta }} package in env
 - pwsh: build/build.ps1 ${{ parameters.module }} -FromSource $True
   displayName: Install ${{ parameters.module }} package in env
 - pwsh: build/pack.ps1 ${{ parameters.module }}

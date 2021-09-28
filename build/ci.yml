@@ -30,17 +30,17 @@ jobs:
     matrix:
       qdk:
         moduleName: 'qdk'
-        beta: ''
+        envPath: 'qdk/environment.yml'
       azure-quantum:
         moduleName: 'azure-quantum'
-        beta: ''
+        envPath: 'azure-quantum/environment.yml'
       azure-quantum-cirq-beta:
         moduleName: 'azure-quantum'
-        beta: 'cirq'
+        envPath: 'azure-quantum/azure/quantum/plugins/environment-cirq-beta.yml'
   steps:
   - template: steps.yml
     parameters:
       module: '$(moduleName)'
-      beta: '$(beta)'
+      envPath: '$(envPath)'
   - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
     displayName: 'Component detection'

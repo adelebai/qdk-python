@@ -10,12 +10,10 @@
 param (
   [string[]] $PackageDirs,
   [string[]] $EnvNames,
-  [bool] $FromSource,
-  [bool] $IsBeta
+  [bool] $FromSource
 )
 
 Write-Host "##[info]FromSource: '$FromSource'".
-Write-Host "##[info]IsBeta: '$IsBeta'".
 
 & (Join-Path $PSScriptRoot "set-env.ps1");
 
@@ -40,11 +38,6 @@ if ($null -eq $FromSource) {
   Write-Host "##[info]No FromSource. Setting to default '$FromSource'"
 }
 
-if ($null -eq $IsBeta) {
-  $IsBeta = $False
-  Write-Host "##[info]No IsBeta. Setting to default '$IsBeta'"
-}
-
 # Check that input is valid
 if ($EnvNames.length -ne $PackageDirs.length) {
   throw "Cannot run build script: '$EnvNames' and '$PackageDirs' lengths don't match"
@@ -63,9 +56,6 @@ function Install-Package() {
     $AbsPackageDir = Join-Path $ParentPath $PackageName
     Write-Host "##[info]Install package $AbsPackageDir in development mode for env $EnvName"
     pip install -e $AbsPackageDir
-  } elseif ($True -eq $IsBeta) {
-    Write-Host "##[info]Install latest beta of package $PackageName for env $EnvName"
-    pip install --pre --upgrade $PackageName
   } else {
     Write-Host "##[info]Install package $PackageName for env $EnvName"
     pip install $PackageName
