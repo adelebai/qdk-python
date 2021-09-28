@@ -20,8 +20,8 @@ steps:
   displayName: Create ${{ parameters.envName }} conda environment
 - pwsh: build/build.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }} -FromSource $True
   displayName: Install ${{ parameters.packageName }} package in env
-- ${{ if eq(parameters.pack, 'true') }}:
-  - pwsh: build/pack.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
-    displayName: Pack ${{ parameters.packageName }}
+- pwsh: build/pack.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
+  displayName: Pack ${{ parameters.packageName }}
+  condition: eq(parameters.pack, 'true')
 - pwsh: build/test.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
   displayName: Test ${{ parameters.packageName }}
