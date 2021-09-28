@@ -9,8 +9,11 @@
 
 param (
   [string[]] $PackageDirs,
-  [string[]] $EnvNames
+  [string[]] $EnvNames,
+  [bool] $FromSource
 )
+
+Write-Host "##[info]FromSource: '$FromSource'".
 
 & (Join-Path $PSScriptRoot "set-env.ps1");
 
@@ -25,6 +28,14 @@ if ($null -eq $PackageDirs) {
 if ($null -eq $EnvNames) {
   $EnvNames = $PackageDirs | ForEach-Object {$_.replace("-", "")}
   Write-Host "##[info]No EnvNames. Setting to default '$EnvNames'"
+} else {
+  $EnvNames = $EnvNames | ForEach-Object {$_.replace("-", "")}
+  Write-Host "##[info]Using EnvNames '$EnvNames'"
+}
+
+if ($null -eq $FromSource) {
+  $FromSource = $True
+  Write-Host "##[info]No FromSource. Setting to default '$FromSource'"
 }
 
 # Check that input is valid
@@ -35,21 +46,26 @@ if ($EnvNames.length -ne $PackageDirs.length) {
 function Install-Package() {
   param(
     [string] $EnvName,
-    [string] $PackageDir
+    [string] $PackageName
   )
-  $ParentPath = Split-Path -parent $PSScriptRoot
-  $AbsPackageDir = Join-Path $ParentPath $PackageDir
-  Write-Host "##[info]Install package $AbsPackageDir in development mode for env $EnvName"
   # Activate env
   Use-CondaEnv $EnvName
   # Install package
-  pip install -e $AbsPackageDir
+  if ($True -eq $FromSource) {
+    $ParentPath = Split-Path -parent $PSScriptRoot
+    $AbsPackageDir = Join-Path $ParentPath $PackageName
+    Write-Host "##[info]Install package $AbsPackageDir in development mode for env $EnvName"
+    pip install -e $AbsPackageDir
+  } else {
+    Write-Host "##[info]Install package $PackageName for env $EnvName"
+    pip install $PackageName
+  }
 }
 
 if ($Env:ENABLE_PYTHON -eq "false") {
   Write-Host "##vso[task.logissue type=warning;]Skipping installing Python packages. Env:ENABLE_PYTHON was set to 'false'."
 } else {
   for ($i=0; $i -le $PackageDirs.length-1; $i++) {
-    Install-Package -EnvName $EnvNames[$i] -PackageDir $PackageDirs[$i]
+    Install-Package -EnvName $EnvNames[$i] -PackageName $PackageDirs[$i]
   }
 }
