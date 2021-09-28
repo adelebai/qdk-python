@@ -13,7 +13,7 @@ steps:
 - ${{ if ne(parameters.beta, '') }}:
   - pwsh: build/build.ps1 ${{ parameters.beta }} ${{ parameters.module }} -FromSource $False -IsBeta $True
     displayName: Install ${{ parameters.beta }} package in env
-- pwsh: build/build.ps1 ${{ parameters.module }} --FromSource $True
+- pwsh: build/build.ps1 ${{ parameters.module }} -FromSource $True
   displayName: Install ${{ parameters.module }} package in env
 - pwsh: build/pack.ps1 ${{ parameters.module }}
   displayName: Pack ${{ parameters.module }}
