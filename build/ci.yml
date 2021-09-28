@@ -32,23 +32,22 @@ jobs:
         packageName: 'qdk'
         envPath: 'qdk/environment.yml'
         envName: 'qdk'
-        doPack: 'true'
+        doPack: true
       azure-quantum:
         packageName: 'azure-quantum'
         envPath: 'azure-quantum/environment.yml'
         envName: 'azurequantum'
-        doPack: 'true'
+        doPack: true
       azure-quantum-cirq-beta:
         packageName: 'azure-quantum'
         envPath: 'azure-quantum/environment-cirq-beta.yml'
         envName: 'azurequantumcirqbeta'
-        doPack: 'false'
+        doPack: false
   steps:
   - template: steps.yml
     parameters:
       packageName: $(packageName)
       envPath: $(envPath)
       envName: $(envName)
-      pack: $(doPack)
   - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
     displayName: 'Component detection'
