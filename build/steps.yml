@@ -15,13 +15,13 @@ parameters:
 
 steps:
 - pwsh: |
-    Write-Host "Parameters: ${{ parameters.packageName }}, ${{ parameters.envPath }}, ${{ parameters.envName }}, ${{ parameters.pack }}"
+    Write-Host "Parameters: ${{ parameters.packageName }}, ${{ parameters.envPath }}, ${{ parameters.envName }}, ${{ parameters.pack }}, ${{ variables.doPack }}"
 - pwsh: ./bootstrap.ps1 -EnvPath ${{ parameters.envPath }}
   displayName: Create ${{ parameters.envName }} conda environment
 - pwsh: build/build.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }} -FromSource $True
   displayName: Install ${{ parameters.packageName }} package in env
 - pwsh: build/pack.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
   displayName: Pack ${{ parameters.packageName }}
-  condition: variables.doPack
+  condition: eq(variables.doPack, 'true')
 - pwsh: build/test.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
   displayName: Test ${{ parameters.packageName }}
