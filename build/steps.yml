@@ -12,8 +12,8 @@ steps:
     Write-Host "Parameters: ${{ parameters.packageName }}, ${{ parameters.envSuffix }}"
 - pwsh: ./bootstrap.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
   displayName: Create ${{ parameters.packageName }}${{ parameters.envSuffix}} conda environment
-# - pwsh: build/pack.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
-#   displayName: Pack ${{ parameters.packageName }}
-#   condition: eq(variables.doPack, 'true')
+- pwsh: build/pack.ps1 -PackageDirs ${{ parameters.packageName }}
+  displayName: Pack ${{ parameters.packageName }}
+  condition: eq(variables.envSuffix, '')
 # - pwsh: build/test.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
 #   displayName: Test ${{ parameters.packageName }}

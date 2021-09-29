@@ -31,15 +31,12 @@ jobs:
       qdk:
         packageName: 'qdk'
         envSuffix: ''
-        doPack: 'true'
       azure-quantum:
         packageName: 'azure-quantum'
         envSuffix: ''
-        doPack: 'true'
       azure-quantum-cirq-beta:
         packageName: 'azure-quantum'
         envSuffix: '-cirq-beta'
-        doPack: 'false'
   steps:
   - template: steps.yml
     parameters:
