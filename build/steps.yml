@@ -2,26 +2,18 @@ parameters:
 - name: packageName
   type: string
   default: 'azure-quantum'
-- name: envPath
+- name: envSuffix
   type: string
   default: ''
-- name: envName
-  type: string
-  default: ''
-- name: pack
-  type: string
-  default: 'false'
 
 
 steps:
 - pwsh: |
-    Write-Host "Parameters: ${{ parameters.packageName }}, ${{ parameters.envPath }}, ${{ parameters.envName }}, ${{ parameters.pack }}, ${{ variables.doPack }}"
-- pwsh: ./bootstrap.ps1 -EnvPath ${{ parameters.envPath }}
-  displayName: Create ${{ parameters.envName }} conda environment
-- pwsh: build/build.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }} -FromSource $True
-  displayName: Install ${{ parameters.packageName }} package in env
-- pwsh: build/pack.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
-  displayName: Pack ${{ parameters.packageName }}
-  condition: eq(variables.doPack, 'true')
-- pwsh: build/test.ps1 ${{ parameters.packageName }} -EnvNames ${{ parameters.envName }}
-  displayName: Test ${{ parameters.packageName }}
+    Write-Host "Parameters: ${{ parameters.packageName }}, ${{ parameters.envSuffix }}
+- pwsh: ./bootstrap.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
+  displayName: Create ${{ parameters.packageName }}${{ parameters.envSuffix}} conda environment
+# - pwsh: build/pack.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
+#   displayName: Pack ${{ parameters.packageName }}
+#   condition: eq(variables.doPack, 'true')
+# - pwsh: build/test.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
+#   displayName: Test ${{ parameters.packageName }}
