@@ -15,5 +15,5 @@ steps:
 - pwsh: build/pack.ps1 -PackageDirs ${{ parameters.packageName }}
   displayName: Pack ${{ parameters.packageName }}
   condition: eq(variables.envSuffix, '')
-# - pwsh: build/test.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
-#   displayName: Test ${{ parameters.packageName }}
+- pwsh: build/test.ps1 -PackageDirs ${{ parameters.packageName }} -EnvNames ${{ parameters.packageName }}${{ parameters.envSuffix}}
+  displayName: Test ${{ parameters.packageName }}
