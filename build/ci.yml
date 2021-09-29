@@ -30,9 +30,11 @@ jobs:
     matrix:
       qdk:
         packageName: 'qdk'
+        envSuffix: ''
         doPack: 'true'
       azure-quantum:
         packageName: 'azure-quantum'
+        envSuffix: ''
         doPack: 'true'
       azure-quantum-cirq-beta:
         packageName: 'azure-quantum'
