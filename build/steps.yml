@@ -9,7 +9,7 @@ parameters:
 
 steps:
 - pwsh: |
-    Write-Host "Parameters: ${{ parameters.packageName }}, ${{ parameters.envSuffix }}
+    Write-Host "Parameters: ${{ parameters.packageName }}, ${{ parameters.envSuffix }}"
 - pwsh: ./bootstrap.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
   displayName: Create ${{ parameters.packageName }}${{ parameters.envSuffix}} conda environment
 # - pwsh: build/pack.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}

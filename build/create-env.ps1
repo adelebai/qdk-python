@@ -4,12 +4,12 @@
 <#
     .SYNOPSIS
         Create Conda environment(s) for given package directories
-        Optionally, use EnvType to specify a special environment file with name environment-<EnvType>.yml.
+        Optionally, use EnvSuffix to specify a special environment file with name environment<EnvSuffix>.yml.
 #>
 
 param(
   [string] $PackageDir,
-  [string] $EnvType
+  [string] $EnvSuffix
 )
 
 if ('' -eq $PackageDir) {
@@ -23,9 +23,9 @@ if ('' -eq $PackageDir) {
 
 foreach ($PackageDir in $PackageDirs) {
   $parentPath = Split-Path -parent $PSScriptRoot
-  if ('' -ne $EnvType) {
-    $EnvPath = (Join-Path (Join-Path $parentPath $PackageDir) "environment$EnvType.yml")
-    $EnvName = ($PackageDir + $EnvType).replace("-", "")
+  if ('' -ne $EnvSuffix) {
+    $EnvPath = (Join-Path (Join-Path $parentPath $PackageDir) "environment$EnvSuffix.yml")
+    $EnvName = ($PackageDir + $EnvSuffix).replace("-", "")
   } else {
     $EnvPath = (Join-Path (Join-Path $parentPath $PackageDir) "environment.yml")
     $EnvName = $PackageDir.replace("-", "")

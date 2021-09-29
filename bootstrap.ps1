@@ -8,7 +8,7 @@
 
 param(
   [string] $PackageDir,
-  [string] $EnvType
+  [string] $EnvSuffix
 )
 
 # Set env vars
@@ -21,4 +21,4 @@ Import-Module (Join-Path (Join-Path $PSScriptRoot "build") "conda-utils.psm1");
 Enable-Conda
 
 # Create environment
-& (Join-Path (Join-Path $PSScriptRoot build) create-env.ps1) -PackageDir $PackageDir -EnvType $EnvType
+& (Join-Path (Join-Path $PSScriptRoot build) create-env.ps1) -PackageDir $PackageDir -EnvSuffix $EnvSuffix
