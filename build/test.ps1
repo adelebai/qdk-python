@@ -39,6 +39,7 @@ function Invoke-Tests() {
   $PkgName = $PackageDir.replace("-", ".")
   $ParentPath = Split-Path -parent $PSScriptRoot
   $AbsPackageDir = Join-Path $ParentPath $PackageDir
+  $EnvName = $EnvName.replace("-", "")
   Write-Host "##[info]Test package $AbsPackageDir and run tests for env $EnvName"
   # Activate env
   Use-CondaEnv $EnvName
