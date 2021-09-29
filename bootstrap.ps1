@@ -8,7 +8,8 @@
 
 param(
   [string] $PackageDir,
-  [string] $EnvSuffix
+  [string] $EnvSuffix,
+  [bool] $FromSource
 )
 
 # Set env vars
@@ -22,3 +23,6 @@ Enable-Conda
 
 # Create environment
 & (Join-Path (Join-Path $PSScriptRoot build) create-env.ps1) -PackageDir $PackageDir -EnvSuffix $EnvSuffix
+
+# Install package in environment
+& (Join-Path (Join-Path $PSScriptRoot build) install.ps1) -PackageDirs $PackageDir -EnvNames $PackageDir$EnvSuffix -FromSource $FromSource

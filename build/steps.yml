@@ -10,10 +10,8 @@ parameters:
 steps:
 - pwsh: |
     Write-Host "Parameters: ${{ parameters.packageName }}, ${{ parameters.envSuffix }}"
-- pwsh: ./bootstrap.ps1 -PackageDir ${{ parameters.packageName }} -EnvSuffix '${{ parameters.envSuffix }}'
-  displayName: Create ${{ parameters.packageName }}${{ parameters.envSuffix}} conda environment
-- pwsh: build/build.ps1 -PackageDirs ${{ parameters.packageName }} -EnvNames ${{ parameters.packageName }}${{ parameters.envSuffix}} -FromSource $True
-  displayName: Test ${{ parameters.packageName }}
+- pwsh: ./bootstrap.ps1 -PackageDir ${{ parameters.packageName }} -EnvSuffix '${{ parameters.envSuffix }}' -FromSource $True
+  displayName: Create ${{ parameters.packageName }}${{ parameters.envSuffix}} conda environment and install ${{ parameters.packageName }} package from source
 - pwsh: build/pack.ps1 -PackageDirs ${{ parameters.packageName }}
   displayName: Pack ${{ parameters.packageName }}
   condition: eq(variables.envSuffix, '')
