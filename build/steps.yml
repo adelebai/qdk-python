@@ -2,18 +2,15 @@ parameters:
 - name: packageName
   type: string
   default: 'azure-quantum'
-- name: envSuffix
-  type: string
-  default: ''
 
 
 steps:
 - pwsh: |
-    Write-Host "Parameters: ${{ parameters.packageName }}, ${{ parameters.envSuffix }}"
-- pwsh: ./bootstrap.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
-  displayName: Create ${{ parameters.packageName }}${{ parameters.envSuffix}} conda environment
-# - pwsh: build/pack.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
-#   displayName: Pack ${{ parameters.packageName }}
-#   condition: eq(variables.doPack, 'true')
-# - pwsh: build/test.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ parameters.envSuffix }}
+    Write-Host "Parameters: ${{ parameters.packageName }}, ${{ variables.envSuffix }}"
+- pwsh: ./bootstrap.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ variables.envSuffix }}
+  displayName: Create ${{ parameters.packageName }}${{ variables.envSuffix}} conda environment
+- pwsh: build/pack.ps1 -PackageDirs ${{ parameters.packageName }}
+  displayName: Pack ${{ parameters.packageName }}
+  condition: eq(variables.doPack, 'true')
+# - pwsh: build/test.ps1 -PackageDir ${{ parameters.packageName }} -EnvType ${{ variables.envSuffix }}
 #   displayName: Test ${{ parameters.packageName }}
