@@ -30,14 +30,14 @@ jobs:
     matrix:
       qdk:
         packageName: 'qdk'
-        doPack: true
+        doPack: 'true'
       azure-quantum:
         packageName: 'azure-quantum'
-        doPack: true
+        doPack: 'true'
       azure-quantum-cirq-beta:
         packageName: 'azure-quantum'
         envSuffix: '-cirq-beta'
-        doPack: false
+        doPack: 'false'
   steps:
   - template: steps.yml
     parameters:
