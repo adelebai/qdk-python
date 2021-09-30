@@ -7,38 +7,32 @@
 #>
 
 param (
-  [string[]] $PackageDirs,
-  [string[]] $EnvNames
+  [string] $PackageName,
+  [string] $CondaEnvironmentSuffix
 )
 
 & (Join-Path $PSScriptRoot "set-env.ps1");
 
 Import-Module (Join-Path $PSScriptRoot "conda-utils.psm1");
 
-if ($null -eq $PackageDirs) {
-  $ParentPath = Split-Path -parent $PSScriptRoot
-  $PackageDirs = Get-ChildItem -Path $ParentPath -Recurse -Filter "environment.yml" | Select-Object -ExpandProperty Directory | Split-Path -Leaf
-  Write-Host "##[info]No PackageDir. Setting to default '$PackageDirs'"
-}
-
-if ($null -eq $EnvNames) {
-  $EnvNames = $PackageDirs | ForEach-Object {$_.replace("-", "")}
-  Write-Host "##[info]No EnvNames. Setting to default '$EnvNames'"
-}
-
-# Check that input is valid
-if ($EnvNames.length -ne $PackageDirs.length) {
-  throw "Cannot run build script: '$EnvNames' and '$PackageDirs' lengths don't match"
+if ('' -eq $PackageName) {
+  # If no package name is specified, find all packages that contain an environment.yml file
+  $parentPath = Split-Path -parent $PSScriptRoot
+  $PackageNames = Get-ChildItem -Path $parentPath -Recurse -Filter "environment.yml" | Select-Object -ExpandProperty Directory | Split-Path -Leaf
+  Write-Host "##[info]No PackageDir. Setting to default '$PackageNames'"
+} else {
+  $PackageNames = @($PackageName);
 }
 
 function Invoke-Tests() {
   param(
-    [string] $PackageDir,
+    [string] $PackageName,
     [string] $EnvName
   )
-  $PkgName = $PackageDir.replace("-", ".")
+  $PkgName = $PackageName.replace("-", ".")
   $ParentPath = Split-Path -parent $PSScriptRoot
-  $AbsPackageDir = Join-Path $ParentPath $PackageDir
+  $AbsPackageDir = Join-Path $ParentPath $PackageName
+  $EnvName = $EnvName.replace("-", "")
   Write-Host "##[info]Test package $AbsPackageDir and run tests for env $EnvName"
   # Activate env
   Use-CondaEnv $EnvName
@@ -52,7 +46,8 @@ function Invoke-Tests() {
 if ($Env:ENABLE_PYTHON -eq "false") {
   Write-Host "##vso[task.logissue type=warning;]Skipping testing Python packages. Env:ENABLE_PYTHON was set to 'false'."
 } else {
-  for ($i=0; $i -le $PackageDirs.length-1; $i++) {
-    Invoke-Tests -PackageDir $PackageDirs[$i] -EnvName $EnvNames[$i]
+  foreach ($PackageName in $PackageNames) {
+    $EnvName = ($PackageName + $CondaEnvironmentSuffix).replace("-", "")
+    Invoke-Tests -PackageName $PackageName -EnvName $EnvName
   }
 }
